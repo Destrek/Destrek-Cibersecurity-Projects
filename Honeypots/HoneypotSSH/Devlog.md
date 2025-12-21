@@ -29,64 +29,19 @@ Las puedes conectar mediante una red NAT (yo la he creado aposta en VMWare) y pr
 
 2. De la curiosidad que sentía por saber cómo era uno por dentro. Sé que en materia de honeypots puede hacerse mucho, pero, en mi caso, me he propuesto algo muy sencillo para aprender y observar.  
 
+
+
 Requisitos Previos
 
 - Python 3.X
 - Librerías necesarias (socket, datetime, requests, time)
 - Entorno de pruebas (v.gr., máquina virtual con Linux, pero valdría Docker)
 
-Instalación
-
-git clone <url-del-repositorio>
-cd honeySSH
 
 
 Uso básico
 
 Encender el honeypot en una máquina virtual y desde otra probar comandos.
-
-Estructura del proyecto
-
-
-Destrek-cybersecurity-lab/
-│
-├── README.md
-├── LICENSE
-│
-├── 01-defensive-tools/
-│   ├── log_analyzer/
-│   ├── port_monitor/
-│   └── alert_system/
-│
-├── 02-offensive-tools/
-│   ├── ssh_bruteforce_simulator/
-│   ├── payload_generator/
-│   └── scanner/
-│
-├── 03-honeypots/
-│   ├── ssh_honeypot/
-│   ├── http_honeypot/
-│   └── dns_honeypot/
-│
-├── 04-data-analysis/
-│   ├── ip_geolocation/
-│   ├── client_fingerprint/
-│   └── traffic_patterns/
-│
-├── 05-bash-integration/
-│   ├── bash_scanner/
-│   ├── bash_logger/
-│   └── bash_defense_scripts/
-│
-├── 06-writeups/
-│   ├── machine-01.md
-│   ├── machine-02.md
-│   └── honeypot-analysis.md
-│
-└── docs/
-    ├── architecture.png
-    ├── flowcharts/
-    └── references.md
 
 
 
