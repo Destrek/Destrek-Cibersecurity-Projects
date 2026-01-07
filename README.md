@@ -1,4 +1,4 @@
-# Destrek Cibersecurity Projects
+# Destrek Cybersecurity Projects
 
 Este repositorio reúne en un único espacio todas las herramientas, proyectos y experimentos que vaya desarrollando en el ámbito de la Ciberseguridad. Aquí compartiré:
 
