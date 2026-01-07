@@ -1,6 +1,4 @@
 
-[[Ciberseguridad.base]] #Pentesting #Linux #Maquinas
-
 
 Metasploitable 2.0.0 se supone que es la máquina más fácil de todas, la típica para principiantes. Yo estoy empezando en este campo y es la primera que hago. De hecho, la acabo de completar. Simula un sistema Linux viejo con muchos, muchos servicios abiertos. Pero no todos son importantes. 
 El objetivo de la máquina es:
@@ -14,7 +12,7 @@ La máquina ha sido completada dentro de un entorno controlado. Os recomiendo un
 
 Para realizar esta máquina, que es mi primera máquina, lo suyo es primero usar Nmap para detectar qué puertos tiene, cuáles están abiertos y cuáles contienen servicios que pueden explotarse.
 
-	Detectamos la IP metiéndonos en ella primero con "msfadmin" y "msfadmin" como contraseñas. Sacamos la IP con "ifconfig". Cuando la tenemos podemos pasar a Nmap y decirle: "nmap -sS -sV -O -Pn [IP de la máquina]". Esto nos da su sistema operativo, sus puertos abiertos, qué servicios corren en ellos y otras información de interés. 
+Detectamos la IP metiéndonos en ella primero con "msfadmin" y "msfadmin" como contraseñas. Sacamos la IP con "ifconfig". Cuando la tenemos podemos pasar a Nmap y decirle: "nmap -sS -sV -O -Pn [IP de la máquina]". Esto nos da su sistema operativo, sus puertos abiertos, qué servicios corren en ellos y otras información de interés. 
 	
 Podemos probar a usar un crackeador de contraseñas. Yo he probado con uno de FTP sacado de "Linux Basics for Hackers", 2ª edición. Pero era muy lento y probando varias listas de usuarios no estaba consiguiendo nada de valor. 
 Sin embargo, intentando acceder de modo anónimo (anonymous: anonymous) en la máquina sí me ha dejado. 
