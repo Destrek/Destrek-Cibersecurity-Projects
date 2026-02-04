@@ -57,7 +57,7 @@ Quedaba claro que la máquina estaba activa en red y lista para pasar a la sigui
 Podemos probar varias vías para intentar conseguir el root. Pero vamos a probar primero a explotar Samba. Este servicio lo podemos explotar con "trans2open". Este exploit debería permitir aprovechar la vulnerabilidad del servicio y darnos una shell como root. 
 Para buscarlo usamos searchsploit:
 
-![[búsqueda samba esploit.jpg]]
+![](3.jpg)
 
 En concreto, de todos estos, nos quedamos con: 
 
@@ -70,15 +70,15 @@ Una vez hemos localizado el exploit que vamos a usar, abrimos msfsconsole.
 
 Cargamos el módulo en msfconsole:
 
-![[msfsamba.jpg]]
+![](4.jpg)
 
 Configuramos los parámetros de Metasploit para usar el exploit:
 
-![[msfparametros 1.jpg]]
+![](5.jpg)
 
 Los puertos pueden dar problema, como me pasó a mí. Por ello, si os sucede, recomiendo usar otros puertos. Con el 5555 me funcionó.
 
-![[shell establecida en Samba 1.jpg]]
+![](6.jpg)
 
 La shell estaba ya abierta. De hecho, había varias sesiones abiertas, pero con una es suficiente. Esto nos lleva al siguiente paso.
 
@@ -87,7 +87,7 @@ La shell estaba ya abierta. De hecho, había varias sesiones abiertas, pero con 
 
 A partir de aquí los privilegios están escalados, porque usando el exploit tenemos acceso root: 
 
-![[privilegios escalados.jpg]]
+![](7.jpg)
 
 
 Basta con hacer un whoami o un id para darnos cuenta de que, así, tenemos ya el acceso deseado.
@@ -99,7 +99,9 @@ Podemos probar ls, ls -l, ls -la, cat /etc/passwd, cat /etc/shadow...
 
 Al hacer cat /etc/shadow, por ejemplo, encontramos tres hashes que pueden crackearse con John The Ripper:
 
-![[hashes.jpg]]
+![](8.jpg)
+
+
 Esto es una pequeña muestra. Arriba del todo sale otro del propio usuario root. 
 
 Recogemos los hashes: 
@@ -108,7 +110,8 @@ Recogemos los hashes:
 
 Y luego los pasamos a nuestra VM y los crackeamos. 
 
-![[contraseñaspasadas.jpg]]
+![](9.jpg)
+
 
 La forma más sencilla para pasar las contraseñas desde la shell de Metasploit que encontré fue esta: con download.
 
@@ -116,13 +119,14 @@ Una vez tenemos los hashes los podemos intentar crackear.
 
 Los hashes extraídos usaban el algoritmo md5crypt con distintos salts. Esto implica que cada contraseña se calcula con un valor aleatorio único, dificultando ataques de rainbow tables y obligando a probar cada hash contra cada hash individualmente.
 
-![[johnn.jpg]]
+
+![](10.jpg)
 
 John no consiguió crackear ninguno de los hashes. Pero éste no era el objetivo principal de la máquina, así que seguí adelante con otra cosa. 
 
 Si buscamos con locate los directorios que tienen que ver con email, veremos muchos:
 
-![[mail.jpg]]
+![](11.jpg)
 
 Entre todos los directorios que salen, hay uno que es interesante, y es:
 
@@ -131,7 +135,8 @@ Entre todos los directorios que salen, hay uno que es interesante, y es:
 
 ¿Qué hay dentro? Un mensaje. 
 
-![[mensaje de completado.jpg]]
+![](12.jpg)
+
 
 Nos felicita por conseguir superar la máquina y nos avisa de que la del nivel 2 no será tan fácil. 
 
@@ -156,26 +161,33 @@ En el reconocimiento de la máquina en el puerto 80 vemos que su versión es: "A
 
 Con esto en cuenta, vamos a buscar vulnerabilidades para el servicio HTTP. Pero los módulos ya no contienen exploits en Metasploit para esta vulnerabilidad. Así que hay que descargarlo manualmente, instalar las dependencias y compilarlo. 
 
-![[exploit htttp.jpg]]
+![](13.jpg)
+
+
 Las dependencias:
 
-![[232356.jpg]]
+![](14.jpg)
+
 
 Y compilamos:
 
-![[c compiler.jpg]]
+![](15.jpg)
+
 
 Con bastante paciencia, intentamos lanzar el exploit manualmente (y varias veces con varias combinaciones hasta que funcione una):
 
-![[Sin título 1.jpg]]
+
+![](16%201.jpg)
+
 
 Si todo va bien deberíamos tener una shell habilitada:
 
-![[shell de HTTP en consola.jpg]]
+![](17.jpg)
+
 
 Al hacer whoami vemos que estamos en el usuario "apache".
 
-![[whoamii.jpg]]
+![](18.jpg)
 
 Así que ya estamos dentro. Pero ahora toca pasar al siguiente punto.
 
@@ -183,23 +195,27 @@ Así que ya estamos dentro. Pero ahora toca pasar al siguiente punto.
 
 Tenemos que conseguir acceso al usuario root.  Podemos usar el exploit ptrace-kmod para usarlo contra el kernel y ganar acceso root. Lo descargamos: 
 
-![[ptrace.jpg]]
+![](19.jpg)
+
+
 
 ¿Cómo lo pasamos de la VM atacante a Kioptrix? Pues levantando un sencillo servidor HTTP con Python para descargarlo desde dentro: 
 
-![[servidor HTTP sencillo en máquina atacante.jpg]]
+![](20.jpg)
 
 Después desde la shell de Kioptrix hacemos la petición al servidor de la VM atacante:
 
-![[archivo descargado232 1.jpg]]
+![](21.jpg)
 
 Compilamos y ejecutamos:
 
-![[Sin título221.jpg]]
+![](22.jpg)
+
 
 Y comprobamos si todo ha funcionado: 
 
-![[root mediante HTTP.jpg]]
+![](23.jpg)
+
 
 Ya somos root y podemos hacer exactamente lo mismo que antes en Samba: explorar, buscar archivos, contraseñas, directorios..., etc. 
 
